@@ -21,3 +21,25 @@ def split_message(message):
 
 splited = split_message('Hey zEyad how are you')
 
+
+def convert_to_number(groups):
+    """
+    Convert group of message to number
+    """
+    # convert each group to a number
+    nums = []
+    for group in groups:
+        num = 0
+        sum_number = 0
+        i = 4
+        for char in group:
+            if (ord(char) in range(47, 58)):
+                num = ord(char) - 48
+            elif (ord(char) in range(97, 123)):
+                num = ord(char) - 87
+            else:
+                num = 36
+            sum_number = sum_number + pow(37, i) * num
+            i = i - 1
+        nums.append(sum_number)
+    return nums
