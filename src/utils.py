@@ -43,3 +43,27 @@ def convert_to_number(groups):
             i = i - 1
         nums.append(sum_number)
     return nums
+
+
+def convert_to_string(number):
+    """
+    Convert a number to the corresponding string back
+    """
+    string = ''
+    char = ''
+    while number > 0:
+        if (pow(number, 1, 37) in range(0, 10)):
+            char = str(pow(number, 1, 37))
+        elif (pow(number, 1, 37) in range(10, 36)):
+            char = chr(pow(number, 1, 37) + 87)
+        else:
+            char = chr(32)
+        number //= 37
+        string += char
+    return string[::-1]
+
+
+plaintext = convert_to_number(splited)
+text = convert_to_string(plaintext[0])
+print(text)
+print(plaintext)
