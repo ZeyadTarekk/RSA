@@ -1,17 +1,6 @@
 import random
 
 
-def generate_e(phi):
-    """
-    Generate a value for the public exponent e based on the value of phi.
-    The value of e should be coprime to phi and within the range 1 < e < phi.
-    """
-    # choose a random number between 2 and phi-1
-    e = random.randint(2, phi-1)
-    # check if e is coprime with phi using the are_coprime function
-    while not are_coprime(e, phi):
-        e = random.randint(2, phi-1)
-    return e
 
 def gcd(a, b):
     """
