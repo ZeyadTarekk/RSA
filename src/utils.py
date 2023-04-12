@@ -1,3 +1,5 @@
+import sympy
+
 def split_message(message):
     """
     Split a message into groups of 5 and pad the last group with spaces if its length is less than 5.
@@ -83,3 +85,23 @@ def mod_inverse(a, m):
     if x < 0:
         x = (x % m + m) % m
     return x
+
+
+def isPrime(n):
+    """
+    Check if the number is prime (using sympy to get high performance)
+    """
+    return sympy.isprime(n)
+
+
+def factorize_pq(n):
+    """
+    Get the prime factorization of n (p,q)
+    """
+    p = random.getrandbits(int(n/2))
+    q = random.getrandbits(int(n/2))
+    while not isPrime(p):
+        p = random.getrandbits(int(n/2))
+    while not isPrime(q) or p == q:
+        q = random.getrandbits(int(n/2))
+    return p, q
