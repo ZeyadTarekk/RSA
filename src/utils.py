@@ -1,5 +1,6 @@
 import sympy
 
+
 def split_message(message):
     """
     Split a message into groups of 5 and pad the last group with spaces if its length is less than 5.
@@ -105,3 +106,23 @@ def factorize_pq(n):
     while not isPrime(q) or p == q:
         q = random.getrandbits(int(n/2))
     return p, q
+
+
+def generate_p_q(n_bits):
+    """
+    This function generates two random prime numbers p and q that are each n_bits long (i.e.,
+    between 2**(n_bits-1) and 2**n_bits - 1) using the sympy.randprime function.
+
+    """
+    lower_limit = pow(2, n_bits-1)
+    upper_limit = pow(2, n_bits) - 1
+
+    p = sympy.randprime(lower_limit, upper_limit)
+    q = sympy.randprime(lower_limit, upper_limit)
+    while p == q:
+        q = sympy.randprime(lower_limit, upper_limit)
+
+    return p, q
+
+p ,q = generate_p_q(15)
+print(p, q)
