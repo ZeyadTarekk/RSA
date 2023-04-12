@@ -63,7 +63,13 @@ def convert_to_string(number):
     return string[::-1]
 
 
-plaintext = convert_to_number(splited)
-text = convert_to_string(plaintext[0])
-print(text)
-print(plaintext)
+def extended_euclidean_algo(a, b):
+    """
+    Returns the extended Euclidean algorithm for two given integers a and b.
+    """
+    if b == 0:
+        return (1, 0)
+    # using pow as it is much faster than calculating the mod
+    (x, y) = extended_euclidean_algo(b, pow(a, 1, b))
+    k = a // b
+    return (y, x - k * y)
