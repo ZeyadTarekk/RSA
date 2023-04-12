@@ -73,3 +73,13 @@ def extended_euclidean_algo(a, b):
     (x, y) = extended_euclidean_algo(b, pow(a, 1, b))
     k = a // b
     return (y, x - k * y)
+
+
+def mod_inverse(a, m):
+    """
+    Calculates the inverse of a number a modulo m using the extended Euclidean algorithm.
+    """
+    (x, y) = extended_euclidean_algo(a, m)
+    if x < 0:
+        x = (x % m + m) % m
+    return x
