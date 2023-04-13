@@ -127,7 +127,7 @@ def generate_p_q(n_bits):
     return p, q
 
 
-def receiving_setup(receiver, connection):
+def receiving_setup(receiver, socket):
     n_bits = 10
     print("Generating p,q of length: "+str(n_bits)+" bits")
     p, q = generate_p_q(n_bits)
@@ -138,7 +138,7 @@ def receiving_setup(receiver, connection):
 
     print("Sending the public key")
     public_key = str(e)+" "+str(p*q)
-    connection.send(str(public_key).encode())
+    socket.send(str(public_key).encode())
 
 
 def sending_setup(sender, socket):
