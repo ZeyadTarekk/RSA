@@ -96,7 +96,7 @@ def isPrime(n):
     return sympy.isprime(n)
 
 
-def factorize_pq(n):
+def generate_pq_bybits(n):
     """
     This function generates two prime numbers, p and q, each with a bit-length of n/2, and returns them as a tuple (p, q). 
     """
@@ -126,9 +126,9 @@ def generate_p_q(n_bits):
     return p, q
 
 
-p, q = generate_p_q(5)
+p, q = generate_p_q(6)
 print(p, q)
-p1, q1 = factorize_pq(p*q)
+p1, q1 = generate_pq_bybits(6)
 print(p1, q1)
-factors = prime_factorization(p*q)
-print(factors)
+# factors = prime_factorization(p*q)
+# print(factors)
