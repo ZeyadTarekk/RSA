@@ -74,7 +74,7 @@ python  src/attack.py
 - 1 for mathematical attack
 - 2 To test the key length vs attack time
 
-3. **_Running the efficiency attack_**
+3. **_Running the efficiency test_**
 
 ```sh
 python  src/effeciency.py
