@@ -1,5 +1,6 @@
 import sympy
 import random
+import key_generation
 
 
 def split_message(message):
@@ -126,9 +127,15 @@ def generate_p_q(n_bits):
     return p, q
 
 
-p, q = generate_p_q(6)
-print(p, q)
-p1, q1 = generate_pq_bybits(6)
-print(p1, q1)
-# factors = prime_factorization(p*q)
-# print(factors)
+def receiving_setup(receiver, connection):
+    n_bits = 10
+    print("Generating p,q of length: "+str(n_bits)+" bits")
+    p, q = generate_p_q(n_bits)
+    print("p: ", p, " q: ", q)
+
+    e = key_generation.generate_e((p-1)*(q-1))
+    receiver.initialize_public_key(p, q, e)
+
+    print("Sending the public key")
+    public_key = str(e)+" "+str(p*q)
+    connection.send(str(public_key).encode())
