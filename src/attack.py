@@ -7,9 +7,9 @@ import matplotlib.pyplot as plt
 import sympy
 
 
-def mathematicalAttack(ciphertext, n, e):
+def attack(ciphertext, n, e):
     ciphertext = ciphertext.split(" ")
-    recovered = ''
+    recovered_text = ''
     rece = rec.Receiver()
 
     for p in range(2, int((n**0.5)+1)):
@@ -22,17 +22,17 @@ def mathematicalAttack(ciphertext, n, e):
     rece.n = rece.p*rece.q
     rece.key_computed = False
     for c in ciphertext:
-        recovered = recovered + rece.decryption(c)
+        recovered_text = recovered_text + rece.decryption(c)
 
-    return recovered
+    return recovered_text
 
 
 while True:
-    time_or_test = input(
+    input_choice = input(
         "To test attacks press 1, To test the key length vs attack time press 2: ")
     p = 0
     q = 0
-    if time_or_test == "1":
+    if input_choice == "1":
 
         receiver = rec.Receiver()
         sender = send.Sender()
@@ -86,16 +86,16 @@ while True:
             i += 4
         attacker_data.close()
 
-        recovered = mathematicalAttack(ciphertext, n, e)
+        recovered_text = attack(ciphertext, n, e)
 
         with open('attack_results.txt', 'w') as f:
             f.write("Original message: " + msg + "\n")
-            f.write("Recovered message: " + recovered + "\n")
+            f.write("Recovered message: " + recovered_text + "\n")
             f.close()
-        if (plaintext == recovered):
+        if (plaintext == recovered_text):
             print("The attack is done, hard luck next time!")
 
-    elif time_or_test == "2":
+    elif input_choice == "2":
         test_file = open("graphs_msg.txt", "r")
         lines = test_file.read().splitlines()
         msg = lines[0]
@@ -145,7 +145,7 @@ while True:
             key_lengths.append(j)
 
             start_time = time.time()
-            recovered = mathematicalAttack(
+            recovered_text = attack(
                 ciphertext, receiver.p*receiver.q, receiver.e)
             end_time = time.time()
             print('number of bits = ', j, '- Take time = ', end_time - start_time)
@@ -176,4 +176,4 @@ while True:
         plt.show()
 
     else:
-        print("Please choose 1, 2 ")
+        print("Wrong choice")
