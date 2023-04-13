@@ -1,4 +1,5 @@
 import sympy
+import random
 
 
 def split_message(message):
@@ -97,7 +98,7 @@ def isPrime(n):
 
 def factorize_pq(n):
     """
-    Get the prime factorization of n (p,q)
+    This function generates two prime numbers, p and q, each with a bit-length of n/2, and returns them as a tuple (p, q). 
     """
     p = random.getrandbits(int(n/2))
     q = random.getrandbits(int(n/2))
@@ -124,5 +125,10 @@ def generate_p_q(n_bits):
 
     return p, q
 
-p ,q = generate_p_q(15)
+
+p, q = generate_p_q(5)
 print(p, q)
+p1, q1 = factorize_pq(p*q)
+print(p1, q1)
+factors = prime_factorization(p*q)
+print(factors)
