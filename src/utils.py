@@ -1,6 +1,7 @@
 import sympy
 import random
 import key_generation
+import time
 
 
 def split_message(message):
@@ -47,7 +48,7 @@ def convert_to_number(groups):
             sum_number = sum_number + pow(37, i) * num
             i = i - 1
         nums.append(sum_number)
-    return nums
+    return nums, len(groups)
 
 
 def convert_to_string(number):
@@ -57,10 +58,10 @@ def convert_to_string(number):
     string = ''
     char = ''
     while number > 0:
-        if (pow(number, 1, 37) in range(0, 10)):
-            char = str(pow(number, 1, 37))
-        elif (pow(number, 1, 37) in range(10, 36)):
-            char = chr(pow(number, 1, 37) + 87)
+        if (number % 37 in range(0, 10)):
+            char = str(number % 37)
+        elif (number % 37 in range(10, 36)):
+            char = chr(number % 37 + 87)
         else:
             char = chr(32)
         number //= 37
@@ -84,10 +85,7 @@ def mod_inverse(a, m):
     """
     Calculates the inverse of a number a modulo m using the extended Euclidean algorithm.
     """
-    (x, y) = extended_euclidean_algo(a, m)
-    if x < 0:
-        x = (x % m + m) % m
-    return x
+    return pow(a,-1,m)
 
 
 def isPrime(n):
@@ -128,6 +126,9 @@ def generate_p_q(n_bits):
 
 
 def receiving_setup(receiver, socket):
+    """
+    The receiving_setup function sets up the receiver's public key by generating two prime numbers p and q of length n_bits using generate_p_q function, and then generating the public key e using generate_e function from key_generation module. Finally, it sends the public key to the sender through the given socket by encoding it as a string.
+    """
     n_bits = 10
     print("Generating p,q of length: "+str(n_bits)+" bits")
     p, q = generate_p_q(n_bits)
@@ -138,31 +139,51 @@ def receiving_setup(receiver, socket):
 
     print("Sending the public key")
     public_key = str(e)+" "+str(p*q)
+    print("Public key "+public_key)
     socket.send(str(public_key).encode())
 
 
 def sending_setup(sender, socket):
+    """
+    This function sets up the public key for the sender by receiving the public key from the receiver over the provided socket connection. It decodes the public key and initializes the sender's public key with the provided values of 'e' and 'n'.
+    """
     print("Recieving the public key")
     public_key = socket.recv(1024).decode()
     public_key = public_key.split(" ")
     e = int(public_key[0])
     n = int(public_key[1])
+    print("Recieved: "+str(e)+" "+str(n))
     sender.initialize_public_key(e, n)
 
 
 def send_message(sender, socket):
+    """
+    This function prompts the user to enter a message, encrypts it , and sends the encrypted message over a socket connection. It then prints the response received from the receiver.
+    """
     message = input("Entered the message: ")
-    ciphertext = sender.encryption(message)
-    socket.send(ciphertext.encode())
+    splited = split_message(message)
+    m, count = convert_to_number(splited)
+    socket.send(str(count).encode())
+    for i in m:
+        ciphertext = sender.encryption(i)
+        print("Encrypted: " + str(ciphertext))
+        socket.send(str(ciphertext).encode())
+        time.sleep(0.01)
     print(socket.recv(1024).decode())
 
 
 def receive_message(receiver, socket):
+    """
+    This function receives an encrypted message through a socket connection, decrypts it using the provided receiver object, and prints the decrypted message. Then, it sends an acknowledgement message through the socket to notify the sender that the decryption is done.
+    """
     print("Receiving message")
-    ciphertext = socket.recv(1024).decode()
-
-    print("Ciphertext received: "+ciphertext)
-
-    plaintext = receiver.decryption(ciphertext)
-    print("Original: "+plaintext)
-    socket.send(str("Decryption is done!").encode())
+    count = int(socket.recv(1024).decode())
+    full_plaintext = ""
+    while count > 0:
+        ciphertext = socket.recv(1024).decode()
+        print("ciphertext received: "+ciphertext)
+        plaintext = receiver.decryption(ciphertext)
+        full_plaintext = full_plaintext + plaintext
+        count = count-1
+    print("Originial message from sender: " + full_plaintext)
+    socket.send(str("Done decryption").encode())

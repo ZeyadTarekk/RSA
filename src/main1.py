@@ -8,6 +8,9 @@ receiver_client = receiver.Receiver()
 
 
 def sender_function():
+    """
+    This function sets up a socket server and waits for a client to connect. Once connected, it initializes the sending and receiving clients using the utils.receiving_setup and utils.sending_setup functions. It then enters a loop to continuously send and receive messages using the utils.send_message and utils.receive_message functions. Once finished, it closes the connection
+    """
     host = socket.gethostname()
     port = 5000
     server = socket.socket()

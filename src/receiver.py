@@ -10,23 +10,21 @@ class Receiver:
     d = 0
 
     def initialize_public_key(self, p, q, e):
-        self.p = p
-        self.q = q
-        self.e = e
+        self.p = int(p)
+        self.q = int(q)
+        self.e = int(e)
         self.n = self.p * self.q
+        self.calulate_private_key()
 
     def calulate_private_key(self):
         self.phi = (self.p - 1)*(self.q - 1)
         self.d = utils.mod_inverse(self.e, self.phi)
 
     def decryption(self, ciphertext):
-        # calulate private key is called
-
-        ciphertext = ciphertext.split(" ")
-
-        plaintext = ""
-        for i in ciphertext:
-            m = pow(i, self.d, self.n)
-            plaintext = plaintext + utils.convert_to_string(m)
+        print("self e ", self.e)
+        print("self d ", self.d)
+        print("self n ", self.n)
+        m = pow(int(ciphertext), self.d, self.n)
+        plaintext = utils.convert_to_string(m)
 
         return plaintext

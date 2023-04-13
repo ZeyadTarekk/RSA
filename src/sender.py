@@ -6,16 +6,12 @@ class Sender:
     n = 0,
 
     def initialize_public_key(self, e, n):
-        self.e = e
-        self.n = n
+        self.e = int(e)
+        self.n = int(n)
 
     def encryption(self, plaintext):
-        splited_message = utils.split_message(plaintext)
-
-        integer_message = utils.convert_to_number(splited_message)
-
-        cipher_text = ""
-        for i in integer_message:
-            c = pow(i, self.e, self.n)
-            cipher_text = cipher_text + " "+str(c)
-        return cipher_text[1:]
+        print("self e ", self.e)
+        # print("self d ", self.d)
+        print("self n ", self.n)
+        cipher_text = pow(int(plaintext), self.e, self.n)
+        return cipher_text
