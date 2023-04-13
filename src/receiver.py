@@ -9,9 +9,11 @@ class Receiver:
     phi = 0,
     d = 0
 
-    def initialize_public_key(self, p, q):
+    def initialize_public_key(self, p, q, e):
         self.p = p
         self.q = q
+        self.e = e
+        self.n = self.p * self.q
 
     def calulate_private_key(self):
         self.phi = (self.p - 1)*(self.q - 1)
