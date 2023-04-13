@@ -21,9 +21,6 @@ class Receiver:
         self.d = utils.mod_inverse(self.e, self.phi)
 
     def decryption(self, ciphertext):
-        print("self e ", self.e)
-        print("self d ", self.d)
-        print("self n ", self.n)
         m = pow(int(ciphertext), self.d, self.n)
         plaintext = utils.convert_to_string(m)
 

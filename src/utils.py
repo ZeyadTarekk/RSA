@@ -129,7 +129,7 @@ def receiving_setup(receiver, socket):
     """
     The receiving_setup function sets up the receiver's public key by generating two prime numbers p and q of length n_bits using generate_p_q function, and then generating the public key e using generate_e function from key_generation module. Finally, it sends the public key to the sender through the given socket by encoding it as a string.
     """
-    n_bits = 10
+    n_bits = 15
     print("Generating p,q of length: "+str(n_bits)+" bits")
     p, q = generate_p_q(n_bits)
     print("p: ", p, " q: ", q)
@@ -166,7 +166,6 @@ def send_message(sender, socket):
     socket.send(str(count).encode())
     for i in m:
         ciphertext = sender.encryption(i)
-        print("Encrypted: " + str(ciphertext))
         socket.send(str(ciphertext).encode())
         time.sleep(0.01)
     print(socket.recv(1024).decode())

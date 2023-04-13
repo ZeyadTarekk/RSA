@@ -10,8 +10,5 @@ class Sender:
         self.n = int(n)
 
     def encryption(self, plaintext):
-        print("self e ", self.e)
-        # print("self d ", self.d)
-        print("self n ", self.n)
         cipher_text = pow(int(plaintext), self.e, self.n)
         return cipher_text
