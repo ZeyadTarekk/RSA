@@ -65,8 +65,6 @@ python src/main1.py
 python src/main2.py
 ```
 
-Open http://localhost:3000 with your browser to see the result
-
 2. **_Running the attacks_**
 
 ```sh
