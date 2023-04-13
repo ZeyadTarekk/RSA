@@ -139,3 +139,30 @@ def receiving_setup(receiver, connection):
     print("Sending the public key")
     public_key = str(e)+" "+str(p*q)
     connection.send(str(public_key).encode())
+
+
+def sending_setup(sender, socket):
+    print("Recieving the public key")
+    public_key = socket.recv(1024).decode()
+    public_key = public_key.split(" ")
+    e = int(public_key[0])
+    n = int(public_key[1])
+    sender.initialize_public_key(e, n)
+
+
+def send_message(sender, socket):
+    message = input("Entered the message: ")
+    ciphertext = sender.encryption(message)
+    socket.send(ciphertext.encode())
+    print(socket.recv(1024).decode())
+
+
+def receive_message(receiver, socket):
+    print("Receiving message")
+    ciphertext = socket.recv(1024).decode()
+
+    print("Ciphertext received: "+ciphertext)
+
+    plaintext = receiver.decryption(ciphertext)
+    print("Original: "+plaintext)
+    socket.send(str("Decryption is done!").encode())
