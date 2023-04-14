@@ -94,7 +94,7 @@ python  src/effeciency.py
    <hr>
    <img  src="screenshots/Figure_3.png"></a>
    <hr>
-   <img  src="screenshots/"></a>
+   <img  src="screenshots/s4.png"></a>
    <hr>
    
 </div>
